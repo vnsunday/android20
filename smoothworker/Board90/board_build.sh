@@ -1,0 +1,1 @@
+g++ board.cpp -o board

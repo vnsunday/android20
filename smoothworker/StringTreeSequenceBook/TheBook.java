@@ -8,11 +8,22 @@ public class TheBook {
 		int nBookP7 = 21;
 		int nBookP8 = 24;
 		
+		if (pageNo >= 36) {
+			int nBookP37 = 51;
+			int nBookP36 = 52;
+
+			if (pageNo % 2 == 0) {
+				return nBookP36 + (pageNo - 36);
+			}
+			else {
+				return nBookP37 + (pageNo - 37);
+			}
+		}
 		if (pageNo % 2 == 0) {
-			return nBookP8 + (pageNo - 8) * 2;
+			return nBookP8 + (pageNo - 8);
 		}
 		else {
-			return nBookP7 + (pageNo - 7) * 2;
+			return nBookP7 + (pageNo - 7);
 		}
 	}
 	
@@ -39,7 +50,7 @@ public class TheBook {
 			sb.append(String.format(",%d,%d", nP1 + i*2, nP2 + i*2 ));
 		}
 		
-		System.out.println(sb.toString());
-		System.out.println(listPDFPage(43, 60));
+		System.out.println("HI");
+		System.out.println(listPDFPage(61, 80));
 	}
 }
