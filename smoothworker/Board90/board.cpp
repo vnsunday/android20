@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <opencv2/core.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui.hpp>
+
+using namespace cv;
 
 // Center position: Left prefer
 int center_position_lp(int n) {
@@ -75,6 +80,13 @@ int main(int argc, char const *argv[])
     printf("Calibrated: CMT=%d; CMB=%d; Diff=%d\r\n", nCMT, nCMB, (nCMT - nCMB));
     printf("Cell-Gross-size=%d\r\n", nCGz);
     printf("W=%d;H=%d\r\n", nW, nH);
+
+    // Painting
+    char azTitle[] = "Board";
+    Mat img = Mat::zeros(nW, nH, CV_8UC3);
+
+    imshow(azTitle, img);
+    waitKey(0);
 
     return 0;
 }
