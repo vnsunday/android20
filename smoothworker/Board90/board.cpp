@@ -83,10 +83,39 @@ int main(int argc, char const *argv[])
 
     // Painting
     char azTitle[] = "Board";
-    Mat img = Mat::zeros(nW, nH, CV_8UC3);
+    Mat img(nH, nW, CV_8UC3, cv::Scalar(255,255,255));
 
-    imshow(azTitle, img);
-    waitKey(0);
+    // Columns (Vertically)
+    double xS = nCML;
+    double xE;
+    double yS = nCMT;
+    double yE = nH - nCMB;
 
+    for (int i=0; i<9; ++i) {
+        rectangle(img, 
+            Point(yS, xS + i*nCGz),
+            Point(yE, xS + (i)*nCGz + nLW - 1),
+            Scalar(255,0,0), // Yellow
+            FILLED,
+            LINE_8);
+    }
+
+    // Rows (Horizontally)
+    xS = nCML;
+    xE = nW - nCMR;
+    yS = nCMT;
+    for (int i=0; i<10; ++i) {
+        rectangle(img,
+            Point(yS + i* nCGz, xS),
+            Point(yS + (i)*nCGz + nLW - 1, xE),
+            Scalar(0,255,0),
+            FILLED,
+            LINE_8);
+    }
+
+    // imshow(azTitle, img);
+    // Rows 
+    // waitKey(0);
+    imwrite("aaa.png", img);
     return 0;
 }
