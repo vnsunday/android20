@@ -114,15 +114,16 @@ int main(int argc, char const *argv[])
     }
 
     // River (Inside)
-    double yRv_S = nCMT + 4 * nCGz + nLW;
-    double yRv_E = nCMT + 5 * nCGz - 1;
-    double xRv_S = nCML + nLW;
-    double xRv_E = nW - nCMR - nLW;
+    int yRv_S = nCMT + 4 * nCGz + nLW;
+    int yRv_E = nCMT + 5 * nCGz - 1;
+    int xRv_S = nCML + nLW;
+    int xRv_E = nW - nCMR - nLW;
     rectangle(img, Point(xRv_S, yRv_S), Point(xRv_E, yRv_E), Scalar(100,20,0,255), FILLED, LINE_8);
+    printf("Inside-River (%d, %d), (%d,%d)\r\n", xRv_S, yRv_S, xRv_E, yRv_E);
 
     // imshow(azTitle, img);
     // Rows 
     // waitKey(0);
-    imwrite("aaa.png", img);
+    // imwrite("aaa.png", img);
     return 0;
 }
