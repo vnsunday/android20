@@ -25,12 +25,12 @@ int main(int argc, char const *argv[])
 
     int nMT = 50; // Margin-Top
     int nML = 50; // Margin-Left 
-    int nLW = 5; // Line Width
+    int nLW = 20; // Line Width
     int nLCV = 9; // Vertically Line Count
     int nLCH = 10; // Horizontally Line Count 
 
     /*==================================================
-        Calibration Veritcally.
+        Calibration X coordinates.
 
         MUST HAVE: 
             Central-Line Must in the middle of Board.
@@ -56,7 +56,7 @@ int main(int argc, char const *argv[])
     nCMR = nW - nBr_xe;
 
     /*==================================================
-        Horizontally Calibrated 
+        Calibrate Y coordinate
 
         MUST-HAVE: 
             Middle Line- In the middle 
@@ -83,7 +83,7 @@ int main(int argc, char const *argv[])
 
     // Painting
     char azTitle[] = "Board";
-    Mat img(nH, nW, CV_8UC3, cv::Scalar(255,255,255));
+    Mat img(nH, nW, CV_8UC4, cv::Scalar(255,255,255, 0)); // With transparency
 
     // Columns (Vertically)
     double xS = nCML;
@@ -93,9 +93,9 @@ int main(int argc, char const *argv[])
 
     for (int i=0; i<9; ++i) {
         rectangle(img, 
-            Point(yS, xS + i*nCGz),
-            Point(yE, xS + (i)*nCGz + nLW - 1),
-            Scalar(255,0,0), // Yellow
+            Point(xS + i*nCGz, yS),
+            Point(xS + (i)*nCGz + nLW - 1, yE),
+            Scalar(255,0,0, 255), // Yellow
             FILLED,
             LINE_8);
     }
@@ -106,12 +106,19 @@ int main(int argc, char const *argv[])
     yS = nCMT;
     for (int i=0; i<10; ++i) {
         rectangle(img,
-            Point(yS + i* nCGz, xS),
-            Point(yS + (i)*nCGz + nLW - 1, xE),
-            Scalar(0,255,0),
+            Point(xS, yS + i* nCGz),
+            Point(xE, yS + (i)*nCGz + nLW - 1),
+            Scalar(0,255,0, 255),
             FILLED,
             LINE_8);
     }
+
+    // River (Inside)
+    double yRv_S = nCMT + 4 * nCGz + nLW;
+    double yRv_E = nCMT + 5 * nCGz - 1;
+    double xRv_S = nCML + nLW;
+    double xRv_E = nW - nCMR - nLW;
+    rectangle(img, Point(xRv_S, yRv_S), Point(xRv_E, yRv_E), Scalar(100,20,0,255), FILLED, LINE_8);
 
     // imshow(azTitle, img);
     // Rows 
