@@ -6,9 +6,12 @@
 
 using namespace cv;
 
+#define PI 3.14159265358979323846
+
 int model() {
     int omega;
-    // 
+    double T = 10;
+    double dV = 2 * PI * R / T;
     return 0;
 }
 
@@ -21,6 +24,7 @@ int main(int argc, char const *argv[])
     double dR_M2P = 100.0; // Ratio: Meter 2 Pixel
     double dXc = 1.5; // In Meter 
     double dYc = 1.5;
+    double dAlpha = 3.14 / 18.0; // 10 degree
 
     double dMarginX = 0.2; // Meter 
     double dMarginY = 0.2; // Meter 
@@ -71,6 +75,17 @@ int main(int argc, char const *argv[])
     );
 
     // 
+    cv::line(img, 
+                cv::Point(npCx, npCy), 
+                cv::Point(npCx, npCy - npR),
+                clpen,
+                stlw);
+
+    cv::line(img, 
+                cv::Point(npCx, npCy), 
+                cv::Point(npCx + std::sin(dAlpha) * npR, npCy - std::cos(dAlpha) * npR),
+                clpen,
+                stlw);
 
     imwrite("aaa.png", img);
     return 0;
