@@ -6,22 +6,72 @@
 
 using namespace cv;
 
+int model() {
+    int omega;
+    // 
+    return 0;
+}
+
 int main(int argc, char const *argv[])
 {
     /* code */
     /*================================================== 
         Configuration
      *==================================================*/
-    double dR_M2P = 100.0; // Meter 2 Pixel
-    double dXc = 10; // In Meter 
-    double dYc =10;
+    double dR_M2P = 100.0; // Ratio: Meter 2 Pixel
+    double dXc = 1.5; // In Meter 
+    double dYc = 1.5;
 
     double dMarginX = 0.2; // Meter 
     double dMarginY = 0.2; // Meter 
+    double dRadius = 1; // In Meters (one meter)
 
-    double dRadius; // In Meters 
-    double dVector; // 
+    // Styles 
+    int stlw = 3; // Line width
+    int stlw_h = stlw / 2; // Half of line width
+
+
 
     // Meter 2 Pixel 
+    int nW = 0; // Board width
+    int nH = 0; // Board Height 
+
+    int npR =  dR_M2P * dRadius; // Radius in pixel
+    int npCx = dR_M2P * dXc; // Center X
+    int npCy = dR_M2P * dYc; // Center Y
+    int npMrgx = dR_M2P * dMarginX; // Margin
+    int npMrgy = dR_M2P * dMarginY; 
+
+    nW = npCx + npR + 2 * npMrgx;
+    nH = npCy + npR + 2 * npMrgy;
+
+    /*====================*/
+    cv::Point pcenter(npCx, npCy);
+    cv::Scalar clpen = cv::Scalar(0,0,0);
+
+    Mat img(nH, nW, CV_8UC3, cv::Scalar(255, 255, 255)); // 
+
+    // Central
+    cv::rectangle(
+        img,
+        cv::Point(npCx , npCy),
+        cv::Point(npCx, npCy),
+        clpen, 
+        stlw,
+        LINE_8
+    );
+
+    // Circle
+    cv::circle(img, 
+        pcenter, 
+        npR, // Radius 
+        clpen, 
+        stlw, 
+        LINE_8
+    );
+
+    // 
+
+    imwrite("aaa.png", img);
     return 0;
 }
