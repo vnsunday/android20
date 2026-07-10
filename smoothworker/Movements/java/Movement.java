@@ -29,6 +29,12 @@ public class Movement {
 	
 	// lw: line-width
 	public static int draw_a_vector(Mat img, Point p1, Point p2, int lw, Scalar color) {
+		
+		Scalar clred = new Scalar(0, 0, 255);
+		Scalar clblue = new Scalar(255, 0, 0);
+		Scalar clblack = new Scalar(0, 0, 0);
+		Scalar clyl = new Scalar(0, 255, 255);
+		
 		Imgproc.line(img, p1, p2, color, lw);
 		// Draw Arrow.
 	    double dVlen = Math.sqrt( (p1.x - p2.x)*(p1.x - p2.x) + 
@@ -47,8 +53,10 @@ public class Movement {
 	    Point p3 = new Point(p2.x + vear1[0], p2.y + vear1[1]);
 	    Point p4 = new Point(p2.x + vear2[0], p2.y + vear2[1]);
 
-	    Imgproc.line(img, p2, p3, color, lw);
-	    Imgproc.line(img, p2, p4, color, lw);
+	    Imgproc.line(img, p2, p3, clred, lw);
+	    Imgproc.line(img, p2, p4, clblue, lw);
+	    Imgproc.circle(img, p1, 10, clblack);
+	    Imgproc.circle(img, p2, 10, clyl);
 
 		return 0;
 	}
@@ -63,6 +71,16 @@ public class Movement {
        
         // 
         draw_a_vector(img, new Point(10, 100), new Point(200, 100), 2, new Scalar(0, 0, 255) );
+        
+        Scalar clblack = new Scalar(0, 0, 0);
+        Scalar clyl = new Scalar(0, 255, 255);
+        double[] v1 = { 50, 50 };
+        double[] v2 = rotate_vector_cw(v1, Math.PI / 9); // PI / 9 = 20 degree
+        Point p0 = new Point(30, 30);
+       
+        
+        Imgproc.line(img, p0, new Point(p0.x + v1[0], p0.y + v1[1]), clblack, 2);
+        Imgproc.line(img, p0, new Point(p0.x + v2[0], p0.y + v2[1]), clyl, 2);
         
         // 
         HighGui.imshow(null, img);
