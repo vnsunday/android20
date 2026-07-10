@@ -1,3 +1,4 @@
+#include <cmath>
 #include <stdio.h>
 #include <stdlib.h>
 #include <opencv2/core.hpp>
@@ -21,7 +22,19 @@ double vector_length(double dx, double dy) {
 
 cv::Vec2f rotate_vector_cw(cv::Vec2f v, double rad) {
     double dL = vector_length(v[0], v[1]);
-    double dRad = v[0] == 0 ? PI/2 : std::atan(v[1]/v[0]);
+    double dRad; // = v[0] == 0 ? PI/2 : std::atan(v[1]/v[0]);
+    /*
+    if (v[0] == 0) {
+        dRad = v[1] > 0 ? PI /2 : 3 * PI / 2;
+    }
+    else if (v[1] == 0) {
+        dRad = v[0] > 0 ? 0 : PI; 
+    }
+    else {
+        dRad = std::atan(v[1] / v[0]);
+    }
+    */
+    dRad = atan2(v[1], v[0]);
     return cv::Vec2f( std::cos(dRad + rad) *  dL, std::sin(dRad + rad) * dL);
 }
 
@@ -35,10 +48,8 @@ int draw_a_vector(Mat& img,cv::Point2f p1, cv::Point2f p2, int lw, Scalar color)
     double reverse_vx = p1.x - p2.x;
     double reverse_vy = p1.y - p2.y;
 
-
-
-    reverse_vx = reverse_vx * darrow_ear / dVlen;
-    reverse_vy = reverse_vy * darrow_ear / dVlen;
+    reverse_vx = reverse_vx * darrow_ear / dVlen;  // Unit vector 
+    reverse_vy = reverse_vy * darrow_ear / dVlen;  // 
 
     cv::Vec2f vreverse(reverse_vx, reverse_vy);
 
@@ -138,7 +149,7 @@ int main(int argc, char const *argv[])
     cv::Point2f pT2E = p2Center + cv::Point2f(vT2) + cv::Point2f(vC2C2);
 
     draw_a_vector(img, pT1S, pT1E, stlw, clpen); // Tangent 1
-    // draw_a_vector(img, pT2S, pT2E, stlw, clpen); // Tangent 2
+    draw_a_vector(img, pT2S, pT2E, stlw, clpen); // Tangent 2
 
     imwrite("aaa.png", img);
     return 0;

@@ -13,14 +13,34 @@ public class Movement {
 	    return Math.sqrt(dx*dx + dy*dy);
 	}
 	
+	static double radian_to_degree(double radian) {
+		return radian * 180.0 / Math.PI;
+	}
+	
 	// Rotating clockwise
 	static double[] rotate_vector_cw(double[] vec, double radian) {
 		
 		double dL = vector_length(vec[0], vec[1]);
-		double dRad  = vec[0] == 0 ? 
-				Math.PI / 2 : 
-				Math.atan(vec[1] / vec[0]);
-
+		double dRad;
+		/*
+		if (vec[0] == 0) {
+			dRad = vec[1] > 0 ? Math.PI /2 : 3 * Math.PI / 2;
+		}
+		else if (vec[1] == 0) {
+			dRad = vec[0] > 0 ? 0 : Math.PI; 
+		}
+		else {
+			dRad = Math.atan(vec[1] / vec[0]);
+		}
+		*/
+		dRad = Math.atan2(vec[1], vec[0]);
+		
+		// Debug 
+		/*
+		System.out.printf("rotate (%.2f, %.2f). angle=%.2f\r\n", 
+					vec[0], vec[1], radian_to_degree(dRad));
+		*/
+		
 		return new double[] {
 				Math.cos(dRad + radian) * dL, 
 				Math.sin(dRad + radian) * dL
@@ -50,6 +70,13 @@ public class Movement {
 	    double[] vear1 = rotate_vector_cw(vreverse, Math.PI/10.0);
 	    double[] vear2 = rotate_vector_cw(vreverse, -Math.PI/10.0);
 	    
+	    // Debug
+	    /*
+	    System.out.printf("(%f, %f)\r\n", reverse_vx, reverse_vy);
+	    System.out.printf("(%f, %f)\r\n", vear1[0], vear1[1]);
+	    System.out.printf("(%f, %f)\r\n", vear2[0], vear2[1]);
+	    */
+	    
 	    Point p3 = new Point(p2.x + vear1[0], p2.y + vear1[1]);
 	    Point p4 = new Point(p2.x + vear2[0], p2.y + vear2[1]);
 
@@ -66,14 +93,15 @@ public class Movement {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         
         System.out.println("OpenCV Loaded Successfully!");
-        // Mat mat = Mat.eye(3, 3, CvType.CV_8UC1);
         Mat img = new Mat(400,400, CvType.CV_8UC3, new Scalar(255, 255, 255));
-       
-        // 
-        draw_a_vector(img, new Point(10, 100), new Point(200, 100), 2, new Scalar(0, 0, 255) );
-        
+
         Scalar clblack = new Scalar(0, 0, 0);
         Scalar clyl = new Scalar(0, 255, 255);
+
+        // 
+        draw_a_vector(img, new Point(10, 100), new Point(200, 100), 2, new Scalar(0, 0, 255) );
+        draw_a_vector(img, new Point(10, 100), new Point(190, 110), 2, clblack); // Tangent 2
+        
         double[] v1 = { 50, 50 };
         double[] v2 = rotate_vector_cw(v1, Math.PI / 9); // PI / 9 = 20 degree
         Point p0 = new Point(30, 30);
