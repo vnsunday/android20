@@ -1,18 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <cmath>
 #include <string>
 
 using namespace std;
-
 /*============================================================
     Horizontal Line: 
         Y = a number
     Vertical Line:
         X = a number
-
  *============================================================*/
 bool pass_able_2D(int X, int Y, bool bHorizon = true) {
-
     return true;
 }
 
@@ -24,10 +22,25 @@ bool pass_able_2D(int X, int Y, bool bHorizon = true) {
             If (B,S) is counter-clock-wise compare to A
  *============================================================*/
 std::string relative_position(int nAX, int nAY, int nBX, int nBY, 
-    int nSX,
-    int nSY)
-{ 
+                                    int nSX,
+                                    int nSY)
+{
     return "cw"; // Clockwise
+}
+
+/*============================================================
+        (a) Clock wise
+        (b) Counter clock wise
+ *============================================================*/
+std::string pathwise_direction(int Ax, int Ay, int Bx, int By, int Cx, int Cy) {
+    int vABx = Bx - Ax;
+    int vABy = By - Ay;
+    int vBCx = Cx - Bx;
+    int vBCy = Cy - By;
+
+    double alpha = std::atan2(vABy, vABx) ; // Angle 1
+    double beta = std::atan2(vBCy, vBCx); // Angle 2
+    return "cw";
 }
 
 /*============================================================
@@ -49,8 +62,6 @@ void pull_string(int nAX, int nAY, int nFX, int nFY) {
     nA2Y = nAY;
     nA2X = nAX + 10;
 }
-
-
 
 bool drill_a_hole(int X, int Y, bool bHorizon, int Xh, int Yh) {
     
@@ -104,9 +115,7 @@ int main(int argc, char const *argv[])
     int X; // 
     int Y; 
     bool bVertical = true;
-
     int path;
-    
 
     return 0;
 }
