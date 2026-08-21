@@ -40,7 +40,30 @@ std::string pathwise_direction(int Ax, int Ay, int Bx, int By, int Cx, int Cy) {
 
     double alpha = std::atan2(vABy, vABx) ; // Angle 1
     double beta = std::atan2(vBCy, vBCx); // Angle 2
-    return "cw";
+    double alpha_r1 = alpha - M_PI;
+    double alpha_r2 = alpha + M_PI;
+
+    // Range 1 (alpha - PI , alpha)
+    //      If beta in Range1 => counter clock wise
+    if (alpha > PI && 
+            (beta > alpha - PI) && (beta < alpha)) {
+        return "clockwise";
+    } else if ( alpha < PI && 
+                    ((beta < alpha) || 
+                        (beta > PI + alpha)))
+    {
+        return "clockwise";
+    }
+    // Special case (alpha = beta). Straight
+    else if (alpha == beta )
+    {
+        return "straight";
+    }
+    // Range 2 (clock-wise) (alpha, alpha + PI)
+    else 
+    {
+        return "counter-clockwise";
+    }
 }
 
 /*============================================================
