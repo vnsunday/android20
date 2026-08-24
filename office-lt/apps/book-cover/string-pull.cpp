@@ -1,5 +1,8 @@
+#include <cmath>
 #include <stdio.h>
 #include <stdlib.h>
+
+using namespace std;
 
 void model_pull_simple() {
     /*========================================
@@ -8,6 +11,8 @@ void model_pull_simple() {
             (dx,dy) distance from the end of string to anchor point
             l: length of the string
             (px, py) pull vector
+        Output: 
+            (fdx, fdy)  Final position (X,Y) when then String is pull at most
      *========================================*/
 
     // State changes 
@@ -20,6 +25,15 @@ void model_pull_simple() {
     double distance = sqrt((dx*dx) + (dy*dy));
     double f_m; // Function of weight of every position of the string
 
+    // 
+    double fdx;
+    double fdy;
+    
+    // Line Equation of Pull vector containing the poin (dx,dy)
+    
+    // Solve the equation 
+    //      fdx^2 + fdy^2 = l^2 
+    //      vector ((fdx - dx),(fdy - dy)) is parallel to vector (px, py)
 }
 
 int main()
