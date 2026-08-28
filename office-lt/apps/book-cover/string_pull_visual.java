@@ -4,8 +4,10 @@ import java.util.List;
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
 import org.opencv.core.Mat;
+import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.imgproc.Imgproc;
 
 class string_pull_visual {
 	
@@ -14,7 +16,7 @@ class string_pull_visual {
 	final int MIN_HEIGHT = 250;
 	final int MAX_HEIGHT = 1200; 
 	
-	static void GenerateCurvePath(int x0, int y0, int x1, int y1, int l) throws Exception {
+	static double[] GenerateCurvePath(int x0, int y0, int x1, int y1, int l) throws Exception {
 		// (x0, y0): starting point
 		// (x1, y1): ending point
 		double l1 = Math.sqrt( (x1 - x0) * (x1 - x0) + ( y1 - y0 ) * (y1 - y0));
@@ -41,15 +43,18 @@ class string_pull_visual {
 			double y3_1 = ym + h * puvy1;
 			double x3_2 = xm + h * puvx2;
 			double y3_2 = ym + h * puvy2;
+			
+			return new double[] { x3_1, y3_1, x3_2, y3_2 };
 		}
 		else {
 			throw new Exception("Invalid");
 		}
 	}
 
-    static void pull_simple(Mat img) throws Exception {       
-        /*============================================================
-            double M2Pixel = 50;
+    static void pull_simple(Mat img) throws Exception { 
+    	double M2Pixel = 50;
+    	/*============================================================
+            
          *============================================================*/
     	int mode = 0; // Left - Right - Justify 
         double dx = 5; // In Meter
@@ -64,22 +69,33 @@ class string_pull_visual {
         
         // Draw a curve with a length l 
         List<Point> cp = new ArrayList<Point>(); // curve path
-        cp.add(new Point(0, 0)); // Starting point
-        cp.add(new Point(dx, dy)); // Last Point
+        MatOfPoint mopcp = new MatOfPoint();  // Mat of Point for the Curve-path
         
         // 
-        int x0, x1, x2, x3;
-        int y0, y1, y2, y3;
+        int x0 = 0;
+        int y0 = 0;
+        int x1 = (int)(dx * M2Pixel);
+        int y1 = (int)(dy * M2Pixel);
         
+        double [] pts = GenerateCurvePath(x0, y0, x1, y1, (int)l);
         // Generating a curve 
         // GenerateCurvePath(x0, y0, x1, y1, (int)l);
+        cp.add(new Point(x0, y0)); // Starting point
+        cp.add(new Point((int)pts[0], (int)pts[1]));
+        cp.add(new Point(x1, x1)); // Last Point    
+        
+        mopcp.fromList(cp);
+        
+        // Draw curves 
+        Imgproc.polylines(img, new ArrayList<MatOfPoint>( List.of(mopcp) ), 
+        		false, 
+        		null);
     }
 
     public static void main(String[] args) {
         // CRITICAL: You must load the native library before using OpenCV classes
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        
-        Mat img = new Mat(600, 400, CvType.CV_8UC3, new Scalar(255, 255, 255));
+        Mat img = new Mat(600, 400, CvType.CV_8UC3, new Scalar(255, 255, 255));       
         
         try {
         	pull_simple(null);
