@@ -14,7 +14,10 @@ class string_pull_visual {
 	final int MIN_WIDTH = 250;
 	final int MAX_WIDTH = 1200;
 	final int MIN_HEIGHT = 250;
-	final int MAX_HEIGHT = 1200; 
+	final int MAX_HEIGHT = 1200;
+	
+	static Scalar clyellow = new Scalar(0, 255, 255);
+	static Scalar clbrown = new Scalar(200, 0, 150);
 	
 	static double[] GenerateCurvePath(int x0, int y0, int x1, int y1, int l) throws Exception {
 		// (x0, y0): starting point
@@ -69,7 +72,6 @@ class string_pull_visual {
         
         // Draw a curve with a length l 
         List<Point> cp = new ArrayList<Point>(); // curve path
-        MatOfPoint mopcp = new MatOfPoint();  // Mat of Point for the Curve-path
         
         // 
         int x0 = 0;
@@ -82,14 +84,17 @@ class string_pull_visual {
         // GenerateCurvePath(x0, y0, x1, y1, (int)l);
         cp.add(new Point(x0, y0)); // Starting point
         cp.add(new Point((int)pts[0], (int)pts[1]));
-        cp.add(new Point(x1, x1)); // Last Point    
-        
-        mopcp.fromList(cp);
-        
+        cp.add(new Point(x1, x1)); // Last Point
+               
         // Draw curves 
-        Imgproc.polylines(img, new ArrayList<MatOfPoint>( List.of(mopcp) ), 
-        		false, 
-        		null);
+        MatOfPoint mopcp = new MatOfPoint();  // Mat of Point for the Curve-path
+        mopcp.fromList(cp);
+        Imgproc.polylines(img, 
+        					new ArrayList<MatOfPoint>( List.of(mopcp) ), 
+			        		false,  // IsClosed
+			        		clbrown,
+			        		2, // Thickness
+			        		Imgproc.LINE_AA);
     }
 
     public static void main(String[] args) {
