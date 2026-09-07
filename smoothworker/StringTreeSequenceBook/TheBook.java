@@ -1,9 +1,7 @@
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-
 public class TheBook {
-	
 	public static int PageBookToPDFPage(int pageNo) {
 		int nBookP7 = 21;
 		int nBookP8 = 24;
@@ -51,6 +49,15 @@ public class TheBook {
 		}
 		
 		System.out.println("HI");
+		System.out.println(listPDFPage(1, 60));
 		System.out.println(listPDFPage(61, 80));
+		System.out.println(listPDFPage(81, 100));
+		System.out.println(listPDFPage(101, 120));
+		System.out.println(listPDFPage(121, 140));
+		System.out.println(listPDFPage(141, 160));
+		System.out.println("161-260");
+		System.out.println(listPDFPage(161, 260));
+		System.out.println("261-326");
+		System.out.println(listPDFPage(261, 326));
 	}
 }
