@@ -26,7 +26,7 @@ public class Server {
 
         @Override
         public void handle(HttpExchange exchange) throws IOException {
-            String response = "<html></html>";
+            String response = "<html><title>HomePage</title><body><h1>LIST</h1></body></html>";
             exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
             exchange.sendResponseHeaders(200, response.getBytes().length);
 
